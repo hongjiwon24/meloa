@@ -4,10 +4,26 @@ import styled from "styled-components";
 import { usePlayer } from "../../components/user/Player";
 
 const chartData = [
-  { rank: 1, title: "첫 번째 노래", artist: "가수1", image: "https://placehold.co/60x60" },
-  { rank: 2, title: "두 번째 노래", artist: "가수2", image: "https://placehold.co/60x60" },
-  // ... 나머지 생략 ...
-  { rank: 20, title: "스무 번째 노래", artist: "가수20", image: "https://placehold.co/60x60" },
+  { rank: 1, title: "첫 번째 노래", artist: "가수1", image: "https://placehold.co/50x50" },
+  { rank: 2, title: "두 번째 노래", artist: "가수2", image: "https://placehold.co/50x50" },
+  { rank: 3, title: "세 번째 노래", artist: "가수3", image: "https://placehold.co/50x50" },
+  { rank: 4, title: "네 번째 노래", artist: "가수4", image: "https://placehold.co/50x50" },
+  { rank: 5, title: "다섯 번째 노래", artist: "가수5", image: "https://placehold.co/50x50" },
+  { rank: 6, title: "여섯 번째 노래", artist: "가수6", image: "https://placehold.co/50x50" },
+  { rank: 7, title: "일곱 번째 노래", artist: "가수7", image: "https://placehold.co/50x50" },
+  { rank: 8, title: "여덟 번째 노래", artist: "가수8", image: "https://placehold.co/50x50" },
+  { rank: 9, title: "아홉 번째 노래", artist: "가수9", image: "https://placehold.co/50x50" },
+  { rank: 10, title: "열 번째 노래", artist: "가수10", image: "https://placehold.co/50x50" },
+  { rank: 11, title: "열한 번째 노래", artist: "가수11", image: "https://placehold.co/50x50" },
+  { rank: 12, title: "열두 번째 노래", artist: "가수12", image: "https://placehold.co/50x50" },
+  { rank: 13, title: "열세 번째 노래", artist: "가수13", image: "https://placehold.co/50x50" },
+  { rank: 14, title: "열네 번째 노래", artist: "가수14", image: "https://placehold.co/50x50" },
+  { rank: 15, title: "열다섯 번째 노래", artist: "가수15", image: "https://placehold.co/50x50" },
+  { rank: 16, title: "열여섯 번째 노래", artist: "가수16", image: "https://placehold.co/50x50" },
+  { rank: 17, title: "열일곱 번째 노래", artist: "가수17", image: "https://placehold.co/50x50" },
+  { rank: 18, title: "열여덟 번째 노래", artist: "가수18", image: "https://placehold.co/50x50" },
+  { rank: 19, title: "열아홉 번째 노래", artist: "가수19", image: "https://placehold.co/50x50" },
+  { rank: 20, title: "스무 번째 노래", artist: "가수20", image: "https://placehold.co/50x50" },
 ];
 
 const BestP = () => {
@@ -65,23 +81,21 @@ const BestP = () => {
 };
 
 const Container = styled.div`
-  max-width: 768px;
+  padding: 16px;
+  max-width: 550px;
   margin: 0 auto;
-  padding: 24px;
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 `;
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+  align-items: baseline;
+  margin-bottom: 12px;
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: #1f2937;
 `;
@@ -89,62 +103,57 @@ const Title = styled.h1`
 const Time = styled.span`
   font-size: 14px;
   color: #6b7280;
-  user-select: none;
 `;
 
 const List = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  border-top: 1px solid #e5e7eb;
 `;
 
 const ListItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 12px;
-  background-color: #f9fafb;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+
   &:hover {
-    background-color: #f3f4f6;
+    background-color: #f9fafb;
   }
 `;
 
 const Rank = styled.span`
-  width: 32px;
+  width: 24px;
+  font-size: 14px;
   text-align: center;
-  font-weight: bold;
-  color: #4b5563;
+  color: #6b7280;
 `;
 
 const Thumbnail = styled.img`
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
   object-fit: cover;
-  border-radius: 8px;
-  margin: 0 16px;
-  flex-shrink: 0;
+  margin: 0 12px;
 `;
 
 const Info = styled.div`
   flex: 1;
-  min-width: 0;
+  overflow: hidden;
 `;
 
 const SongTitle = styled.p`
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
-  color: #111827;
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Artist = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: #6b7280;
+  margin: 2px 0 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -153,15 +162,15 @@ const Artist = styled.p`
 const PlayButton = styled.button`
   background: none;
   border: none;
-  padding: 0;
+  padding: 4px;
   margin-left: 8px;
   cursor: pointer;
 `;
 
 const PlayIcon = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
 `;
-
 
 export default BestP;

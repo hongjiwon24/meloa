@@ -8,6 +8,7 @@ import Header from "../components/user/Header";
 import BottomNav from "../components/user/BottomNav";
 import PlayerBar from "../components/user/PlayerBar";
 import { PlayerProvider } from "../components/user/Player";
+import List from "../pages/user/List";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
               <Route path="/" element={<Home />} />
               <Route path="/latest" element={<LatestP />} />
               <Route path="/best" element={<BestP />} />
+              <Route path="/list" element={<List />} />
             </Routes>
           </main>
 

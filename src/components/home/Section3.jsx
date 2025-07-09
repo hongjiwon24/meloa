@@ -40,7 +40,6 @@ const Section3 = () => {
   const scrollRef = useRef(null);
   const navigate = useNavigate();
 
-  // 스크롤 위치 변경 함수
   const scrollToIndex = (index) => {
     setCurrentIndex(index);
     if (scrollRef.current) {
@@ -51,7 +50,6 @@ const Section3 = () => {
     }
   };
 
-  // 스크롤 시 인덱스 동기화
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
@@ -82,7 +80,7 @@ const Section3 = () => {
         {playlists.map((item, idx) => (
           <Card key={idx}>
             <MoreButton
-              onClick={() => navigate('/summer-pick')}
+              onClick={() => navigate('/list')}
               aria-label="더보기"
             >
               <Dot />
@@ -117,8 +115,10 @@ const Section3 = () => {
 // 컨테이너
 const Container = styled.div`
   width: 100%;
-  padding: 24px 16px;
-  box-sizing: border-box;
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: white;
 `;
 
 // 플레이리스트 제목
@@ -150,12 +150,13 @@ const Card = styled.div`
   scroll-snap-align: center;
   flex-shrink: 0;
   position: relative;
-  width: 360px;
-  min-height: 160px;
+  width: 85vw;
+  max-width: 360px;
+  min-width: 280px;
   margin: 0 8px;
   padding: 16px;
   background-color: #404040;
-  border-radius: 16px;
+  border-radius: 8px;
   color: white;
 
   display: flex;
@@ -178,7 +179,13 @@ const MoreButton = styled.button`
   &:hover {
     opacity: 1;
   }
+
+  @media (max-width: 480px) {
+    top: 8px;
+    gap: 3px;
+  }
 `;
+
 
 // 점 (dot) 하나
 const Dot = styled.span`
@@ -187,15 +194,31 @@ const Dot = styled.span`
   background: white;
   border-radius: 50%;
   display: block;
+
+  @media (max-width: 479px) {
+    width: 4px;
+    height: 4px;
+  }
+
+  @media (max-width: 360px) {
+    width: 3px;
+    height: 3px;
+  }
 `;
+
 
 // 이미지
 const Image = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 6px;
   flex-shrink: 0;
+
+  @media (min-width: 480px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 // 텍스트 영역
@@ -210,22 +233,30 @@ const TextBox = styled.div`
 // 타이틀 텍스트 (플레이리스트 이름)
 const TitleText = styled.p`
   font-weight: 700;
-  font-size: 18px;
+  font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (min-width: 480px) {
+    font-size: 18px;
+  }
 `;
 
 // 에디터 텍스트
 const EditorText = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: #d1d5db;
   margin-top: 4px;
+
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 // 설명 텍스트
 const DescriptionText = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   color: #e5e7eb;
   margin-top: 8px;
   display: -webkit-box;
@@ -233,6 +264,10 @@ const DescriptionText = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 // 점 네비게이션 컨테이너
@@ -245,8 +280,8 @@ const DotsContainer = styled.div`
 
 // 점 네비게이션 버튼
 const DotButton = styled.button`
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: #a0aec0;
   border-radius: 50%;
   border: none;
@@ -255,6 +290,11 @@ const DotButton = styled.button`
 
   &.active {
     background: #404040;
+  }
+
+  @media (max-width: 479px) {
+    width: 8px;
+    height: 8px;
   }
 `;
 export default Section3;

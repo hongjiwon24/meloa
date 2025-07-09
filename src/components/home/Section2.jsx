@@ -16,19 +16,19 @@ const Section2 = () => {
       rank: 1,
       title: "첫 번째 노래",
       artist: "가수1",
-      image: "https://placehold.co/60x60",
+      image: "https://placehold.co/50x50",
     },
     {
       rank: 2,
       title: "두 번째 노래",
       artist: "가수2",
-      image: "https://placehold.co/60x60",
+      image: "https://placehold.co/50x50",
     },
     {
       rank: 3,
       title: "세 번째 노래",
       artist: "가수3",
-      image: "https://placehold.co/60x60",
+      image: "https://placehold.co/50x50",
     },
   ];
 
@@ -70,7 +70,10 @@ const Section2 = () => {
 
 const SectionContainer = styled.div`
   width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
   padding: 16px;
+  background-color: white;
 `;
 
 const HeaderRow = styled.div`
@@ -164,5 +167,6 @@ const PlayButton = styled.button`
 const PlayIcon = styled.img`
   width: 24px;
   height: 24px;
+  margin-right: 20px;
 `;
 export default Section2;

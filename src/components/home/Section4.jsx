@@ -1,40 +1,36 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+// src/components/home/Section4.jsx
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
+// 예시 플레이리스트 데이터
 const playlistItems = [
   {
     id: 1,
-    image: 'https://placehold.co/600x400?text=List1',
-    link: '/playlist/1',
+    image: "https://placehold.co/160x160?text=Playlist+1",
+    link: "/playlist/1",
   },
   {
     id: 2,
-    image: 'https://placehold.co/600x400?text=List2',
-    link: '/playlist/2',
+    image: "https://placehold.co/160x160?text=Playlist+2",
+    link: "/playlist/2",
   },
   {
     id: 3,
-    image: 'https://placehold.co/600x400?text=List3',
-    link: '/playlist/3',
+    image: "https://placehold.co/160x160?text=Playlist+3",
+    link: "/playlist/3",
   },
   {
     id: 4,
-    image: 'https://placehold.co/600x400?text=List4',
-    link: '/playlist/4',
+    image: "https://placehold.co/160x160?text=Playlist+4",
+    link: "/playlist/4",
   },
   {
     id: 5,
-    image: 'https://placehold.co/600x400?text=List5',
-    link: '/playlist/5',
-  },
-  {
-    id: 6,
-    image: 'https://placehold.co/600x400?text=List6',
-    link: '/playlist/6',
+    image: "https://placehold.co/160x160?text=Playlist+5",
+    link: "/playlist/5",
   },
 ];
-
 
 const Section4 = () => {
   const navigate = useNavigate();
@@ -45,7 +41,7 @@ const Section4 = () => {
       <Header>
         <Title>플레이리스트</Title>
         <MoreButton
-          onClick={() => navigate('/playlist')}
+          onClick={() => navigate("/list")}
           aria-label="플레이리스트 더보기"
         >
           &gt;
@@ -57,11 +53,12 @@ const Section4 = () => {
           <SlideItem
             key={item.id}
             onClick={() => navigate(item.link)}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") navigate(item.link);
+            }}
           >
-            <SlideImage
-              src={item.image}
-              alt={`Playlist ${item.id}`}
-            />
+            <SlideImage src={item.image} alt={`Playlist ${item.id}`} />
           </SlideItem>
         ))}
       </SlideContainer>
@@ -71,40 +68,43 @@ const Section4 = () => {
 
 const Container = styled.div`
   width: 100%;
-  padding: 24px 16px;
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: white;
 `;
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
   font-weight: 600;
+  font-size: 18px;
+  color: #1a202c;
 `;
 
 const MoreButton = styled.button`
   font-size: 20px;
-  color: #6b7280;
-  cursor: pointer;
   background: none;
   border: none;
-  padding: 0;
-  user-select: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
 
   &:hover {
-    color: #4b5563;
+    color: #1a202c;
   }
 `;
 
 const SlideContainer = styled.div`
   display: flex;
   overflow-x: auto;
+  gap: 12px;
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 
   scrollbar-width: none;
@@ -117,17 +117,23 @@ const SlideContainer = styled.div`
 
 const SlideItem = styled.div`
   flex-shrink: 0;
-  width: 40%;
-  max-width: 280px;
-  scroll-snap-align: center;
-  padding: 0 8px;
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
   cursor: pointer;
+  position: relative;
+
+  &:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
 `;
 
 const SlideImage = styled.img`
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 100%;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 8px;
 `;
+
 export default Section4;

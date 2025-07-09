@@ -101,7 +101,7 @@ const GAP_PX = 16;
 // ✅ styled-components
 const Container = styled.div`
   width: 100%;
-  max-width: 480px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 16px;
   background-color: white;
