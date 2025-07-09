@@ -79,14 +79,6 @@ const Section3 = () => {
       <Slider ref={scrollRef}>
         {playlists.map((item, idx) => (
           <Card key={idx}>
-            <MoreButton
-              onClick={() => navigate('/list')}
-              aria-label="더보기"
-            >
-              <Dot />
-              <Dot />
-              <Dot />
-            </MoreButton>
 
             <Image src={item.image} alt={item.title} />
             <TextBox>
@@ -161,29 +153,6 @@ const Card = styled.div`
 
   display: flex;
   align-items: center;
-`;
-
-// 더보기 버튼 (가로 점 3개)
-const MoreButton = styled.button`
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: flex;
-  gap: 4px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.3s;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  @media (max-width: 480px) {
-    top: 8px;
-    gap: 3px;
-  }
 `;
 
 
