@@ -1,0 +1,19 @@
+// src/components/home/Home.jsx
+import React from "react";
+import Section1 from "./Section1";
+import Section2 from "./Section2";
+import Section3 from "./Section3";
+import Section4 from "./Section4";
+
+const Home = () => {
+  return (
+    <div className="flex flex-col pb-20"> {/* <-- 하단 여백 추가 */}
+      <Section1 />
+      <Section2 />
+      <Section3 />
+      <Section4 />
+    </div>
+  );
+};
+
+export default Home;
