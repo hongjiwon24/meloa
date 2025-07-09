@@ -14,6 +14,88 @@ const images = [
   "https://placehold.co/600x600?text=Music+6",
 ];
 
+
+
+// ✅ 컴포넌트 정의
+const Section1 = () => {
+  const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+
+  // 스크롤 시 인디케이터 업데이트
+  useEffect(() => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl) return;
+
+    const onScroll = () => {
+      const slide = scrollEl.firstChild;
+      if (!slide) return;
+      const slideWidth = slide.getBoundingClientRect().width + GAP_PX;
+      const index = Math.round(scrollEl.scrollLeft / slideWidth);
+      setActiveIndex(Math.max(0, Math.min(index, images.length - 1)));
+    };
+
+    scrollEl.addEventListener("scroll", onScroll, { passive: true });
+    return () => scrollEl.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // 인디케이터 클릭 시 이동
+  const scrollToIndex = (idx) => {
+    const scrollEl = scrollRef.current;
+    if (!scrollEl) return;
+
+    const slide = scrollEl.firstChild;
+    if (!slide) return;
+
+    const slideWidth = slide.getBoundingClientRect().width + GAP_PX;
+    const containerWidth = scrollEl.clientWidth;
+
+    let targetScroll = slideWidth * idx - (containerWidth - slideWidth) / 2;
+    const maxScroll = scrollEl.scrollWidth - containerWidth;
+    if (targetScroll > maxScroll) targetScroll = maxScroll;
+    if (targetScroll < 0) targetScroll = 0;
+
+    scrollEl.scrollTo({
+      left: targetScroll,
+      behavior: "smooth",
+    });
+  };
+
+  // 최신 페이지로 이동
+  const handleNavigation = () => {
+    navigate("/latest");
+  };
+
+  return (
+    <Container>
+      <HeaderRow>
+        <TitleButton onClick={handleNavigation}>최신 음악</TitleButton>
+        <MoreButton onClick={handleNavigation} aria-label="Go to latest music page">
+          &gt;
+        </MoreButton>
+      </HeaderRow>
+
+      <Slider ref={scrollRef}>
+        {images.map((src, idx) => (
+          <SlideItem key={idx}>
+            <SlideImage src={src} alt={`Music ${idx + 1}`} />
+          </SlideItem>
+        ))}
+      </Slider>
+
+      <IndicatorWrapper>
+        {images.map((_, idx) => (
+          <Dot
+            key={idx}
+            $active={activeIndex === idx}
+            onClick={() => scrollToIndex(idx)}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </IndicatorWrapper>
+    </Container>
+  );
+};
 const GAP_PX = 16;
 
 // ✅ styled-components
@@ -109,86 +191,5 @@ const Dot = styled.button`
     background-color: #9ca3af;
   }
 `;
-
-// ✅ 컴포넌트 정의
-const Section1 = () => {
-  const scrollRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const navigate = useNavigate();
-
-  // 스크롤 시 인디케이터 업데이트
-  useEffect(() => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl) return;
-
-    const onScroll = () => {
-      const slide = scrollEl.firstChild;
-      if (!slide) return;
-      const slideWidth = slide.getBoundingClientRect().width + GAP_PX;
-      const index = Math.round(scrollEl.scrollLeft / slideWidth);
-      setActiveIndex(Math.max(0, Math.min(index, images.length - 1)));
-    };
-
-    scrollEl.addEventListener("scroll", onScroll, { passive: true });
-    return () => scrollEl.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // 인디케이터 클릭 시 이동
-  const scrollToIndex = (idx) => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl) return;
-
-    const slide = scrollEl.firstChild;
-    if (!slide) return;
-
-    const slideWidth = slide.getBoundingClientRect().width + GAP_PX;
-    const containerWidth = scrollEl.clientWidth;
-
-    let targetScroll = slideWidth * idx - (containerWidth - slideWidth) / 2;
-    const maxScroll = scrollEl.scrollWidth - containerWidth;
-    if (targetScroll > maxScroll) targetScroll = maxScroll;
-    if (targetScroll < 0) targetScroll = 0;
-
-    scrollEl.scrollTo({
-      left: targetScroll,
-      behavior: "smooth",
-    });
-  };
-
-  // 최신 페이지로 이동
-  const handleNavigation = () => {
-    navigate("/latest");
-  };
-
-  return (
-    <Container>
-      <HeaderRow>
-        <TitleButton onClick={handleNavigation}>최신 음악</TitleButton>
-        <MoreButton onClick={handleNavigation} aria-label="Go to latest music page">
-          &gt;
-        </MoreButton>
-      </HeaderRow>
-
-      <Slider ref={scrollRef}>
-        {images.map((src, idx) => (
-          <SlideItem key={idx}>
-            <SlideImage src={src} alt={`Music ${idx + 1}`} />
-          </SlideItem>
-        ))}
-      </Slider>
-
-      <IndicatorWrapper>
-        {images.map((_, idx) => (
-          <Dot
-            key={idx}
-            $active={activeIndex === idx}
-            onClick={() => scrollToIndex(idx)}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </IndicatorWrapper>
-    </Container>
-  );
-};
 
 export default Section1;

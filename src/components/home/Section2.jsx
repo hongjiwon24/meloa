@@ -4,6 +4,70 @@ import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../../components/user/Player";
 import styled from "styled-components";
 
+// ▶ Section2 컴포넌트 정의
+
+const Section2 = () => {
+  const navigate = useNavigate();
+  const { setCurrentTrack } = usePlayer(); // 전역 상태에서 현재 재생 곡 설정 함수 사용
+
+  // 임시 트랙 데이터
+  const mockData = [
+    {
+      rank: 1,
+      title: "첫 번째 노래",
+      artist: "가수1",
+      image: "https://placehold.co/60x60",
+    },
+    {
+      rank: 2,
+      title: "두 번째 노래",
+      artist: "가수2",
+      image: "https://placehold.co/60x60",
+    },
+    {
+      rank: 3,
+      title: "세 번째 노래",
+      artist: "가수3",
+      image: "https://placehold.co/60x60",
+    },
+  ];
+
+  // 인기차트 페이지로 이동
+  const goToBestPage = () => {
+    navigate("/best");
+  };
+
+  return (
+    <SectionContainer>
+      {/* 제목과 '>' 버튼 */}
+      <HeaderRow>
+        <TitleButton onClick={goToBestPage}>인기차트</TitleButton>
+        <MoreButton onClick={goToBestPage} aria-label="Go to Best Chart Page">
+          &gt;
+        </MoreButton>
+      </HeaderRow>
+
+      {/* 트랙 리스트 */}
+      <TrackList>
+        {mockData.map((item, idx) => (
+          <TrackItem key={idx}>
+            <Rank>{item.rank}</Rank>
+            <AlbumImage src={item.image} alt={item.title} />
+            <TrackInfo>
+              <TrackTitle>{item.title}</TrackTitle>
+              <TrackArtist>{item.artist}</TrackArtist>
+            </TrackInfo>
+            {/* ▶ 플레이 버튼 누르면 현재 곡 재생 상태로 변경 */}
+            <PlayButton onClick={() => setCurrentTrack(item)}>
+              <PlayIcon src="/img/icons/play.svg" alt="Play" />
+            </PlayButton>
+          </TrackItem>
+        ))}
+      </TrackList>
+    </SectionContainer>
+  );
+};
+
 const SectionContainer = styled.div`
   width: 100%;
   padding: 16px;
@@ -101,69 +165,4 @@ const PlayIcon = styled.img`
   width: 24px;
   height: 24px;
 `;
-
-// ▶ Section2 컴포넌트 정의
-
-const Section2 = () => {
-  const navigate = useNavigate();
-  const { setCurrentTrack } = usePlayer(); // 전역 상태에서 현재 재생 곡 설정 함수 사용
-
-  // 임시 트랙 데이터
-  const mockData = [
-    {
-      rank: 1,
-      title: "첫 번째 노래",
-      artist: "가수1",
-      image: "https://placehold.co/60x60",
-    },
-    {
-      rank: 2,
-      title: "두 번째 노래",
-      artist: "가수2",
-      image: "https://placehold.co/60x60",
-    },
-    {
-      rank: 3,
-      title: "세 번째 노래",
-      artist: "가수3",
-      image: "https://placehold.co/60x60",
-    },
-  ];
-
-  // 인기차트 페이지로 이동
-  const goToBestPage = () => {
-    navigate("/best");
-  };
-
-  return (
-    <SectionContainer>
-      {/* 제목과 '>' 버튼 */}
-      <HeaderRow>
-        <TitleButton onClick={goToBestPage}>인기차트</TitleButton>
-        <MoreButton onClick={goToBestPage} aria-label="Go to Best Chart Page">
-          &gt;
-        </MoreButton>
-      </HeaderRow>
-
-      {/* 트랙 리스트 */}
-      <TrackList>
-        {mockData.map((item, idx) => (
-          <TrackItem key={idx}>
-            <Rank>{item.rank}</Rank>
-            <AlbumImage src={item.image} alt={item.title} />
-            <TrackInfo>
-              <TrackTitle>{item.title}</TrackTitle>
-              <TrackArtist>{item.artist}</TrackArtist>
-            </TrackInfo>
-            {/* ▶ 플레이 버튼 누르면 현재 곡 재생 상태로 변경 */}
-            <PlayButton onClick={() => setCurrentTrack(item)}>
-              <PlayIcon src="/img/icons/play.svg" alt="Play" />
-            </PlayButton>
-          </TrackItem>
-        ))}
-      </TrackList>
-    </SectionContainer>
-  );
-};
-
 export default Section2;

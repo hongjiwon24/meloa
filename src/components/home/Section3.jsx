@@ -35,6 +35,85 @@ const playlists = [
   },
 ];
 
+const Section3 = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollRef = useRef(null);
+  const navigate = useNavigate();
+
+  // 스크롤 위치 변경 함수
+  const scrollToIndex = (index) => {
+    setCurrentIndex(index);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        left: index * 380,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // 스크롤 시 인덱스 동기화
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        const scrollLeft = scrollRef.current.scrollLeft;
+        const newIndex = Math.round(scrollLeft / 380);
+        if (newIndex !== currentIndex) {
+          setCurrentIndex(newIndex);
+        }
+      }
+    };
+
+    const refCurrent = scrollRef.current;
+    if (refCurrent) {
+      refCurrent.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (refCurrent) {
+        refCurrent.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [currentIndex]);
+
+  return (
+    <Container>
+      <Title>{playlists[currentIndex].title}</Title>
+
+      <Slider ref={scrollRef}>
+        {playlists.map((item, idx) => (
+          <Card key={idx}>
+            <MoreButton
+              onClick={() => navigate('/summer-pick')}
+              aria-label="더보기"
+            >
+              <Dot />
+              <Dot />
+              <Dot />
+            </MoreButton>
+
+            <Image src={item.image} alt={item.title} />
+            <TextBox>
+              <TitleText>{item.title}</TitleText>
+              <EditorText>{item.editor}</EditorText>
+              <DescriptionText>{item.description}</DescriptionText>
+            </TextBox>
+          </Card>
+        ))}
+      </Slider>
+
+      <DotsContainer>
+        {playlists.map((_, idx) => (
+          <DotButton
+            key={idx}
+            className={idx === currentIndex ? 'active' : ''}
+            onClick={() => scrollToIndex(idx)}
+            aria-label={`슬라이드 ${idx + 1}`}
+          />
+        ))}
+      </DotsContainer>
+    </Container>
+  );
+};
+
 // 컨테이너
 const Container = styled.div`
   width: 100%;
@@ -178,84 +257,4 @@ const DotButton = styled.button`
     background: #404040;
   }
 `;
-
-const Section3 = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollRef = useRef(null);
-  const navigate = useNavigate();
-
-  // 스크롤 위치 변경 함수
-  const scrollToIndex = (index) => {
-    setCurrentIndex(index);
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        left: index * 380,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  // 스크롤 시 인덱스 동기화
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollRef.current) {
-        const scrollLeft = scrollRef.current.scrollLeft;
-        const newIndex = Math.round(scrollLeft / 380);
-        if (newIndex !== currentIndex) {
-          setCurrentIndex(newIndex);
-        }
-      }
-    };
-
-    const refCurrent = scrollRef.current;
-    if (refCurrent) {
-      refCurrent.addEventListener('scroll', handleScroll);
-    }
-    return () => {
-      if (refCurrent) {
-        refCurrent.removeEventListener('scroll', handleScroll);
-      }
-    };
-  }, [currentIndex]);
-
-  return (
-    <Container>
-      <Title>{playlists[currentIndex].title}</Title>
-
-      <Slider ref={scrollRef}>
-        {playlists.map((item, idx) => (
-          <Card key={idx}>
-            <MoreButton
-              onClick={() => navigate('/summer-pick')}
-              aria-label="더보기"
-            >
-              <Dot />
-              <Dot />
-              <Dot />
-            </MoreButton>
-
-            <Image src={item.image} alt={item.title} />
-            <TextBox>
-              <TitleText>{item.title}</TitleText>
-              <EditorText>{item.editor}</EditorText>
-              <DescriptionText>{item.description}</DescriptionText>
-            </TextBox>
-          </Card>
-        ))}
-      </Slider>
-
-      <DotsContainer>
-        {playlists.map((_, idx) => (
-          <DotButton
-            key={idx}
-            className={idx === currentIndex ? 'active' : ''}
-            onClick={() => scrollToIndex(idx)}
-            aria-label={`슬라이드 ${idx + 1}`}
-          />
-        ))}
-      </DotsContainer>
-    </Container>
-  );
-};
-
 export default Section3;

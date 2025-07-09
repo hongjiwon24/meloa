@@ -35,6 +35,40 @@ const playlistItems = [
   },
 ];
 
+
+const Section4 = () => {
+  const navigate = useNavigate();
+  const scrollRef = useRef(null);
+
+  return (
+    <Container>
+      <Header>
+        <Title>플레이리스트</Title>
+        <MoreButton
+          onClick={() => navigate('/playlist')}
+          aria-label="플레이리스트 더보기"
+        >
+          &gt;
+        </MoreButton>
+      </Header>
+
+      <SlideContainer ref={scrollRef}>
+        {playlistItems.map((item) => (
+          <SlideItem
+            key={item.id}
+            onClick={() => navigate(item.link)}
+          >
+            <SlideImage
+              src={item.image}
+              alt={`Playlist ${item.id}`}
+            />
+          </SlideItem>
+        ))}
+      </SlideContainer>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   width: 100%;
   padding: 24px 16px;
@@ -96,38 +130,4 @@ const SlideImage = styled.img`
   object-fit: cover;
   border-radius: 15px;
 `;
-
-const Section4 = () => {
-  const navigate = useNavigate();
-  const scrollRef = useRef(null);
-
-  return (
-    <Container>
-      <Header>
-        <Title>플레이리스트</Title>
-        <MoreButton
-          onClick={() => navigate('/playlist')}
-          aria-label="플레이리스트 더보기"
-        >
-          &gt;
-        </MoreButton>
-      </Header>
-
-      <SlideContainer ref={scrollRef}>
-        {playlistItems.map((item) => (
-          <SlideItem
-            key={item.id}
-            onClick={() => navigate(item.link)}
-          >
-            <SlideImage
-              src={item.image}
-              alt={`Playlist ${item.id}`}
-            />
-          </SlideItem>
-        ))}
-      </SlideContainer>
-    </Container>
-  );
-};
-
 export default Section4;

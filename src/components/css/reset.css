@@ -8,3 +8,7 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+section {
+  max-width: 600px;
+}
