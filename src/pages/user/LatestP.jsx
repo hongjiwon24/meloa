@@ -1,35 +1,41 @@
+// src/pages/user/LatestP.jsx
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { usePlayer } from "../../components/user/Player";
-
-const chartData = [
-  { title: "첫 번째 노래", artist: "가수1", image: "https://placehold.co/50x50" },
-  { title: "두 번째 노래", artist: "가수2", image: "https://placehold.co/50x50" },
-  { title: "세 번째 노래", artist: "가수3", image: "https://placehold.co/50x50" },
-  { title: "네 번째 노래", artist: "가수4", image: "https://placehold.co/50x50" },
-  { title: "다섯 번째 노래", artist: "가수5", image: "https://placehold.co/50x50" },
-  { title: "여섯 번째 노래", artist: "가수6", image: "https://placehold.co/50x50" },
-  { title: "일곱 번째 노래", artist: "가수7", image: "https://placehold.co/50x50" },
-  { title: "여덟 번째 노래", artist: "가수8", image: "https://placehold.co/50x50" },
-  { title: "아홉 번째 노래", artist: "가수9", image: "https://placehold.co/50x50" },
-  { title: "열 번째 노래", artist: "가수10", image: "https://placehold.co/50x50" },
-  { title: "열한 번째 노래", artist: "가수11", image: "https://placehold.co/50x50" },
-  { title: "열두 번째 노래", artist: "가수12", image: "https://placehold.co/50x50" },
-  { title: "열세 번째 노래", artist: "가수13", image: "https://placehold.co/50x50" },
-  { title: "열네 번째 노래", artist: "가수14", image: "https://placehold.co/50x50" },
-  { title: "열다섯 번째 노래", artist: "가수15", image: "https://placehold.co/50x50" },
-  { title: "열여섯 번째 노래", artist: "가수16", image: "https://placehold.co/50x50" },
-  { title: "열일곱 번째 노래", artist: "가수17", image: "https://placehold.co/50x50" },
-  { title: "열여덟 번째 노래", artist: "가수18", image: "https://placehold.co/50x50" },
-  { title: "열아홉 번째 노래", artist: "가수19", image: "https://placehold.co/50x50" },
-  { title: "스무 번째 노래", artist: "가수20", image: "https://placehold.co/50x50" },
-];
+// import axios from "axios"; // ⚠️ 백엔드 연결 시 주석 해제
 
 const LatestP = () => {
   const { setCurrentTrack } = usePlayer();
   const navigate = useNavigate();
+  const [musicData, setMusicData] = useState([]);
   const [currentTime, setCurrentTime] = useState("");
+
+  useEffect(() => {
+    // ✅ 백엔드 연결 시 주석 해제 후 사용
+    /*
+    const fetchLatestMusic = async () => {
+      try {
+        const res = await axios.get("/api/music/latest");
+        setMusicData(res.data);
+      } catch (err) {
+        console.error("최신 음악 데이터를 불러오는 데 실패했습니다:", err);
+      }
+    };
+    fetchLatestMusic();
+    */
+
+    // ✅ 임시 데이터 1개만 넣기
+    setMusicData([
+      {
+        id: 1,
+        title: "임시 최신 음악",
+        artist: "임시 가수",
+        image: "https://placehold.co/48x48",
+      },
+    ]);
+  }, []);
 
   useEffect(() => {
     const updateTime = () => {
@@ -50,30 +56,46 @@ const LatestP = () => {
       </Header>
 
       <List>
-        {chartData.map((item, index) => (
-          <ListItem
-            key={index}
-            onClick={() => navigate(`/playlist/${index + 1}`)}
-            tabIndex={0}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") navigate(`/playlist/${index + 1}`);
-            }}
-          >
-            <Thumbnail src={item.image} alt={`${item.title} 앨범 이미지`} />
-            <Info>
-              <SongTitle>{item.title}</SongTitle>
-              <Artist>{item.artist}</Artist>
-            </Info>
-            <PlayButton
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentTrack(item);
+        {musicData.length > 0 ? (
+          musicData.map((item) => (
+            <ListItem
+              key={item.id}
+              onClick={() => navigate(`/playlist/${item.id}`, { state: item })}
+              tabIndex={0}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") navigate(`/playlist/${item.id}`, { state: item });
               }}
             >
-              <PlayIcon src="/img/icons/play.svg" alt="Play" />
-            </PlayButton>
-          </ListItem>
-        ))}
+              <Thumbnail src={item.image} alt={`${item.title} 앨범 이미지`} />
+              <Info>
+                <SongTitle>{item.title}</SongTitle>
+                <Artist>{item.artist}</Artist>
+              </Info>
+              <PlayButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentTrack(item);
+                }}
+              >
+                <PlayIcon src="/img/icons/play.svg" alt="Play" />
+              </PlayButton>
+            </ListItem>
+          ))
+        ) : (
+          // 데이터 없을 때 빈 레이아웃 유지
+          <>
+            {[...Array(3)].map((_, idx) => (
+              <ListItem key={"empty-" + idx} aria-hidden="true">
+                <EmptyThumbnail />
+                <Info>
+                  <EmptyText />
+                  <EmptyText small />
+                </Info>
+                <PlayButton disabled aria-label="No data" />
+              </ListItem>
+            ))}
+          </>
+        )}
       </List>
     </Container>
   );
@@ -118,6 +140,15 @@ const ListItem = styled.div`
   &:hover {
     background-color: #f9fafb;
   }
+
+  &[aria-hidden="true"] {
+    cursor: default;
+    pointer-events: none;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
 `;
 
 const Thumbnail = styled.img`
@@ -126,6 +157,15 @@ const Thumbnail = styled.img`
   border-radius: 6px;
   object-fit: cover;
   margin: 0 12px;
+`;
+
+const EmptyThumbnail = styled.div`
+  width: 48px;
+  height: 48px;
+  margin: 0 12px;
+  border-radius: 6px;
+  border: 2px dashed #e5e7eb;
+  background-color: #f9fafb;
 `;
 
 const Info = styled.div`
@@ -149,6 +189,14 @@ const Artist = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const EmptyText = styled.div`
+  height: ${(props) => (props.small ? "12px" : "16px")};
+  width: ${(props) => (props.small ? "80px" : "140px")};
+  margin: 4px 0;
+  background-color: #e5e7eb;
+  border-radius: 4px;
 `;
 
 const PlayButton = styled.button`

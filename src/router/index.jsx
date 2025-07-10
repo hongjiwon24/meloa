@@ -9,6 +9,12 @@ import BottomNav from "../components/user/BottomNav";
 import PlayerBar from "../components/user/PlayerBar";
 import { PlayerProvider } from "../components/user/Player";
 import List from "../pages/user/List";
+import MusicDetailP from "../pages/user/MusicDetailP";
+import LikeP from "../pages/user/LikeP";
+import LoginP from '../pages/user/LoginP';
+import Mypage from '../pages/user/Mypage';
+import SignupP from '../pages/user/SignupP';
+
 
 function Router() {
   return (
@@ -25,6 +31,12 @@ function Router() {
               <Route path="/latest" element={<LatestP />} />
               <Route path="/best" element={<BestP />} />
               <Route path="/list" element={<List />} />
+              <Route path="/music-detail" element={<MusicDetailP />} />
+              <Route path="/playlist/:id" element={<MusicDetailP />} />
+              <Route path="/like" element={<LikeP />} />
+              <Route path="/login" element={<LoginP />} />
+              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/signupp" element={<SignupP />} />
             </Routes>
           </main>
 

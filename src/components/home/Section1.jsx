@@ -1,28 +1,41 @@
-// src/components/home/Section1.jsx
-
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+// import axios from "axios"; // ⚠️ 백엔드 연결 시 주석 해제
 
-// 이미지 목록 (추후 API로 교체 가능)
-const images = [
-  "https://placehold.co/600x600?text=Music+1",
-  "https://placehold.co/600x600?text=Music+2",
-  "https://placehold.co/600x600?text=Music+3",
-  "https://placehold.co/600x600?text=Music+4",
-  "https://placehold.co/600x600?text=Music+5",
-  "https://placehold.co/600x600?text=Music+6",
-];
+const GAP_PX = 16;
 
-
-
-// ✅ 컴포넌트 정의
 const Section1 = () => {
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [musicData, setMusicData] = useState([]);
   const navigate = useNavigate();
 
-  // 스크롤 시 인디케이터 업데이트
+  useEffect(() => {
+    // ✅ 백엔드 연결 시 여기를 주석 해제하면 됨
+    /*
+    const fetchMusicData = async () => {
+      try {
+        const res = await axios.get("/api/music/latest");
+        setMusicData(res.data); // 서버에서 최신 음악 리스트 가져오기
+      } catch (err) {
+        console.error("음악 데이터를 불러오는 데 실패했습니다:", err);
+      }
+    };
+    fetchMusicData();
+    */
+
+    // ✅ 임시 데이터 1개만 넣기
+    setMusicData([
+      {
+        id: 1,
+        title: "임시 음악 제목",
+        artist: "임시 가수",
+        image: "https://placehold.co/300x300",
+      },
+    ]);
+  }, []);
+
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
@@ -32,14 +45,13 @@ const Section1 = () => {
       if (!slide) return;
       const slideWidth = slide.getBoundingClientRect().width + GAP_PX;
       const index = Math.round(scrollEl.scrollLeft / slideWidth);
-      setActiveIndex(Math.max(0, Math.min(index, images.length - 1)));
+      setActiveIndex(Math.max(0, Math.min(index, musicData.length - 1)));
     };
 
     scrollEl.addEventListener("scroll", onScroll, { passive: true });
     return () => scrollEl.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [musicData]);
 
-  // 인디케이터 클릭 시 이동
   const scrollToIndex = (idx) => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return;
@@ -61,7 +73,6 @@ const Section1 = () => {
     });
   };
 
-  // 최신 페이지로 이동
   const handleNavigation = () => {
     navigate("/latest");
   };
@@ -76,27 +87,41 @@ const Section1 = () => {
       </HeaderRow>
 
       <Slider ref={scrollRef}>
-        {images.map((src, idx) => (
-          <SlideItem key={idx}>
-            <SlideImage src={src} alt={`Music ${idx + 1}`} />
+        {musicData.length > 0 ? (
+          musicData.map((item, idx) => (
+            <SlideItem
+              key={`${item.id}-${idx}`}
+              onClick={() => navigate(`/playlist/${item.id}`, { state: item })}
+              tabIndex={0}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") navigate(`/playlist/${item.id}`, { state: item });
+              }}
+            >
+              <SlideImage src={item.image} alt={`${item.title} 앨범 이미지`} />
+            </SlideItem>
+          ))
+        ) : (
+          // ✅ 데이터 없을 때 빈 카드 보여주기
+          <SlideItem>
+            <EmptyBox />
           </SlideItem>
-        ))}
+        )}
       </Slider>
 
       <IndicatorWrapper>
-        {images.map((_, idx) => (
-          <Dot
-            key={idx}
-            $active={activeIndex === idx}
-            onClick={() => scrollToIndex(idx)}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
+        {musicData.length > 0 &&
+          musicData.map((_, idx) => (
+            <Dot
+              key={idx}
+              $active={activeIndex === idx}
+              onClick={() => scrollToIndex(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
       </IndicatorWrapper>
     </Container>
   );
 };
-const GAP_PX = 16;
 
 // ✅ styled-components
 const Container = styled.div`
@@ -170,6 +195,18 @@ const SlideImage = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
+  cursor: pointer;
+`;
+
+const EmptyBox = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  background-color: #f9fafb;
 `;
 
 const IndicatorWrapper = styled.div`

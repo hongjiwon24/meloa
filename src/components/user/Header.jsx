@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <HeaderContainer>
       <TicketButton>이용권</TicketButton>
-      <Logo>🎵 로고</Logo>
+      <LogoLink to="/">Meloa</LogoLink>
       <CartButton>
         <FaShoppingCart size={20} />
       </CartButton>
@@ -16,6 +17,7 @@ export default function Header() {
 
 // 스타일 정의
 const HeaderContainer = styled.header`
+  position: relative; /* ✅ 기준 컨테이너 */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,10 +35,14 @@ const TicketButton = styled.button`
   cursor: pointer;
 `;
 
-const Logo = styled.h1`
-  font-size: 18px;
+const LogoLink = styled(Link)`
+  position: absolute; /* ✅ 부모 기준으로 중앙 배치 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
   font-weight: bold;
   letter-spacing: 0.05em;
+  color: #FF2C68;
 `;
 
 const CartButton = styled.button`
