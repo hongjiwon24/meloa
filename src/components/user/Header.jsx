@@ -1,18 +1,20 @@
 // src/components/user/Header.jsx
-
 import React from "react";
 import styled from "styled-components";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { auth } = useAuth();
 
-  // 로그인 여부 체크 (임시)
-  const isLoggedIn = false;
+  const authPages = ["/login", "/signup", "/find-id", "/find-password"];
+  const isAuthPage = authPages.includes(location.pathname);
 
   const handleMyPageClick = () => {
-    if (isLoggedIn) {
+    if (auth.isLoggedIn) {
       navigate("/mypage");
     } else {
       navigate("/login");
@@ -25,18 +27,23 @@ export default function Header() {
       <LogoLink to="/">Meloa</LogoLink>
 
       <ButtonGroup>
-        <IconButton onClick={() => navigate("/CartP")} title="장바구니">
+        <IconButton onClick={() => navigate("/cart")} title="장바구니">
           <FaShoppingCart size={20} />
         </IconButton>
-        <IconButton onClick={handleMyPageClick} title="마이페이지">
-          <FaUser size={20} />
-        </IconButton>
+
+
+        {isAuthPage ? (
+          <LoginButton onClick={() => navigate("/login")}>로그인</LoginButton>
+        ) : (
+          <IconButton onClick={handleMyPageClick} title="마이페이지">
+            <FaUser size={20} />
+          </IconButton>
+        )}
       </ButtonGroup>
-    </HeaderContainer>
+    </HeaderContainer >
   );
 }
 
-// 스타일
 const HeaderContainer = styled.header`
   position: relative;
   display: flex;
@@ -50,7 +57,7 @@ const HeaderContainer = styled.header`
 const PassLink = styled(Link)`
   font-size: 14px;
   font-weight: 600;
-  color: #2563eb;
+  color: #ff2c68;
   text-decoration: none;
 
   &:hover {
@@ -65,7 +72,7 @@ const LogoLink = styled(Link)`
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 0.05em;
-  color: #FF2C68;
+  color: #ff2c68;
   text-decoration: none;
 `;
 
@@ -78,10 +85,25 @@ const ButtonGroup = styled.div`
 const IconButton = styled.button`
   background: none;
   border: none;
-  color: #374151;
+  color: #ff2c68;
   cursor: pointer;
+  transition: color 0.2s ease;
 
   &:hover {
-    color: #ff2c68;
+    color: #cc2454;
+  }
+`;
+
+const LoginButton = styled.button`
+  padding: 6px 12px;
+  background-color: #ff2c68;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #cc2454;
   }
 `;

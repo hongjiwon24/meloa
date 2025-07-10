@@ -1,39 +1,36 @@
-// src/pages/user/LoginP.jsx
+// src/pages/admin/admin.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../../contexts/AuthContext";
 
-const dummyUser = {
-  userId: "meloa",
-  password: "1234",
+const dummyAdmin = {
+  userId: "admin",
+  password: "admin123",
 };
 
-export default function LoginP() {
+const AdminLogin = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleUserLogin = () => {
+  const handleAdminLogin = () => {
     setError("");
 
-    // TODO: 아래 백엔드 연동으로 교체 예정
-    // axios.post("/api/login", { userId, password })
-    //   .then(response => login("user"))
-
-    if (userId === dummyUser.userId && password === dummyUser.password) {
-      login("user");
-      navigate("/mypage");
+    // TODO: 추후 백엔드 연동 (예: axios.post("/api/admin/login"))
+    if (userId === dummyAdmin.userId && password === dummyAdmin.password) {
+      login("admin");
+      navigate("/admin");
     } else {
-      setError("아이디 또는 비밀번호가 올바르지 않습니다.");
+      setError("관리자 아이디 또는 비밀번호가 잘못되었습니다.");
     }
   };
 
   return (
     <LoginContainer>
-      <Title>로그인</Title>
+      <Title>관리자 로그인</Title>
       <Input
         type="text"
         placeholder="아이디"
@@ -46,14 +43,16 @@ export default function LoginP() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") handleUserLogin();
+          if (e.key === "Enter") handleAdminLogin();
         }}
       />
-      <LoginButton onClick={handleUserLogin}>로그인</LoginButton>
+      <LoginButton onClick={handleAdminLogin}>로그인</LoginButton>
       {error && <ErrorText>{error}</ErrorText>}
     </LoginContainer>
   );
-}
+};
+
+export default AdminLogin;
 
 const LoginContainer = styled.div`
   padding: 32px;

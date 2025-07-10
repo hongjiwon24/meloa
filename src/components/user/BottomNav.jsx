@@ -57,6 +57,8 @@ const Nav = styled.nav`
   border-top: 1px solid #e5e7eb;
   box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
   z-index: 50;
+  max-width: 600px;
+  margin: 0 auto;
 `;
 
 const NavList = styled.ul`

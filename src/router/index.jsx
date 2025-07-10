@@ -1,53 +1,81 @@
+// src/router/index.jsx
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import ProtectedRoute from "../components/common/ProtectedRoute";
+import { AuthProvider } from "../contexts/AuthContext";
+
+// 유저 페이지 & 컴포넌트 import
+import UserLayout from "../components/user/UserLayout";
 import Home from "../pages/user/HomeP";
-import LatestP from "../pages/user/LatestP";
-import BestP from "../pages/user/BestP";
-import Header from "../components/user/Header";
-import BottomNav from "../components/user/BottomNav";
-import PlayerBar from "../components/user/PlayerBar";
-import { PlayerProvider } from "../components/user/Player";
-import List from "../pages/user/List";
-import MusicDetailP from "../pages/user/MusicDetailP";
-import LikeP from "../pages/user/LikeP";
 import LoginP from "../pages/user/LoginP";
-import Mypage from "../pages/user/Mypage";
 import SignupP from "../pages/user/SignupP";
+import Mypage from "../pages/user/Mypage";
+import Like from "../pages/user/LikeP";
+import Latest from "../pages/user/LatestP";
+import Best from "../pages/user/BestP";
 import CartP from "../pages/user/CartP";
-import PayP from "../pages/user/PayP";
+
+// 관리자 페이지 & 컴포넌트 import
+import AdminLogin from "../pages/admin/admin"; // 파일명이 admin.jsx 라고 가정
+import AdminLayout from "../components/admin/AdminLayout";
+import AHome from "../pages/admin/AHome";
+import AAdmin from "../pages/admin/AAdmin";
+import AMusicDetailP from "../pages/admin/AMusicDetailP";
+import AUp from "../pages/admin/AUp";
+import AUpDetail from "../pages/admin/AUpDetail";
+import List from "../pages/user/List";
+
 
 function Router() {
   return (
-    <BrowserRouter>
-      <PlayerProvider>
-        <div className="font-sans bg-white min-h-screen flex flex-col">
-          {/* 상단 헤더 */}
-          <Header />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* 유저 영역: 공개 접근 가능 */}
+          <Route element={<UserLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginP />} />
+            <Route path="/signup" element={<SignupP />} />
+            <Route path="/cart" element={<CartP />} />
+            <Route path="/like" element={<Like />} />
+            <Route path="/latest" element={<Latest />} />
+            <Route path="/best" element={<Best />} />
+            <Route path="/list" element={<List />} />
 
-          {/* 라우터 영역 */}
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/CartP" element={<CartP />} />
-              <Route path="/pay" element={<PayP />} />
-              <Route path="/latest" element={<LatestP />} />
-              <Route path="/best" element={<BestP />} />
-              <Route path="/list" element={<List />} />
-              <Route path="/music-detail" element={<MusicDetailP />} />
-              <Route path="/playlist/:id" element={<MusicDetailP />} />
-              <Route path="/like" element={<LikeP />} />
-              <Route path="/login" element={<LoginP />} />
-              <Route path="/mypage" element={<Mypage />} />
-              <Route path="/signup" element={<SignupP />} />
-            </Routes>
-          </main>
+            {/* 로그인한 유저만 접근 가능 */}
+            <Route
+              path="/mypage"
+              element={
+                <ProtectedRoute allowedRoles={["user"]}>
+                  <Mypage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
 
-          {/* 하단 플레이어 및 네비게이션 */}
-          <PlayerBar />
-          <BottomNav />
-        </div>
-      </PlayerProvider>
-    </BrowserRouter>
+          {/* 관리자 로그인 페이지 (레이아웃 없음) */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* 관리자 영역: 관리자 로그인한 사람만 접근 가능 */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AHome />} />
+            <Route path="info" element={<AAdmin />} />
+            <Route path="music-detail/:id" element={<AMusicDetailP />} />
+            <Route path="upload" element={<AUp />} />
+            <Route path="upload-list" element={<AUpDetail />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
