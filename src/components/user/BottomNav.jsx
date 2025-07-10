@@ -1,21 +1,19 @@
+// src/components/user/BottomNav.jsx
+
 import React from "react";
 import styled from "styled-components";
-import { FaHome, FaHeart, FaUser, FaChartLine, FaClock } from "react-icons/fa";
+import {
+  FaHome,
+  FaHeart,
+  FaUser,
+  FaChartLine,
+  FaClock,
+  FaListUl
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export default function BottomNav() {
   const navigate = useNavigate();
-
-  // ✅ 임시 로그인 여부 (true면 바로 마이페이지 이동, false면 로그인페이지로)
-  const isLoggedIn = false; // 나중에 context, redux, localStorage 등으로 대체 가능
-
-  const handleMyPageClick = () => {
-    if (isLoggedIn) {
-      navigate("/mypage");
-    } else {
-      navigate("/login");
-    }
-  };
 
   return (
     <Nav>
@@ -24,28 +22,32 @@ export default function BottomNav() {
           <FaChartLine size={20} />
           <span>인기차트</span>
         </NavItem>
+
         <NavItem onClick={() => navigate("/latest")}>
           <FaClock size={20} />
           <span>최신음악</span>
         </NavItem>
+
         <NavItem onClick={() => navigate("/")}>
           <FaHome size={20} />
           <span>홈</span>
         </NavItem>
+
         <NavItem onClick={() => navigate("/like")}>
           <FaHeart size={20} />
           <span>좋아요</span>
         </NavItem>
-        <NavItem onClick={handleMyPageClick}>
-          <FaUser size={20} />
-          <span>마이페이지</span>
+
+        <NavItem onClick={() => navigate("/list")}>
+          <FaListUl size={20} />
+          <span>플레이리스트</span>
         </NavItem>
       </NavList>
     </Nav>
   );
 }
 
-// 스타일은 동일
+// 스타일
 const Nav = styled.nav`
   position: fixed;
   bottom: 0;
@@ -70,4 +72,8 @@ const NavItem = styled.li`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+
+  &:hover {
+    color: #ff2c68;
+  }
 `;

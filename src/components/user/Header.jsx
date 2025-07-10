@@ -1,23 +1,44 @@
+// src/components/user/Header.jsx
+
 import React from "react";
 import styled from "styled-components";
-import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  // 로그인 여부 체크 (임시)
+  const isLoggedIn = false;
+
+  const handleMyPageClick = () => {
+    if (isLoggedIn) {
+      navigate("/mypage");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <HeaderContainer>
-      <TicketButton>이용권</TicketButton>
+      <PassLink to="/PassP">이용권</PassLink>
       <LogoLink to="/">Meloa</LogoLink>
-      <CartButton>
-        <FaShoppingCart size={20} />
-      </CartButton>
+
+      <ButtonGroup>
+        <IconButton onClick={() => navigate("/CartP")} title="장바구니">
+          <FaShoppingCart size={20} />
+        </IconButton>
+        <IconButton onClick={handleMyPageClick} title="마이페이지">
+          <FaUser size={20} />
+        </IconButton>
+      </ButtonGroup>
     </HeaderContainer>
   );
 }
 
-// 스타일 정의
+// 스타일
 const HeaderContainer = styled.header`
-  position: relative; /* ✅ 기준 컨테이너 */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,28 +47,41 @@ const HeaderContainer = styled.header`
   background-color: white;
 `;
 
-const TicketButton = styled.button`
+const PassLink = styled(Link)`
   font-size: 14px;
   font-weight: 600;
   color: #2563eb;
-  background: none;
-  border: none;
-  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const LogoLink = styled(Link)`
-  position: absolute; /* ✅ 부모 기준으로 중앙 배치 */
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 0.05em;
   color: #FF2C68;
+  text-decoration: none;
 `;
 
-const CartButton = styled.button`
-  color: #374151;
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const IconButton = styled.button`
   background: none;
   border: none;
+  color: #374151;
   cursor: pointer;
+
+  &:hover {
+    color: #ff2c68;
+  }
 `;
