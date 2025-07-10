@@ -38,7 +38,7 @@ function Router() {
               <Route path="/like" element={<LikeP />} />
               <Route path="/login" element={<LoginP />} />
               <Route path="/mypage" element={<Mypage />} />
-              <Route path="/signupp" element={<SignupP />} />
+              <Route path="/signup" element={<SignupP />} />
             </Routes>
           </main>
 

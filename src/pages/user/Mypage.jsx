@@ -1,5 +1,3 @@
-// D:\team\meloa-main\src\pages\user\Mypage.jsx
-
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 // import axios from "axios"; // ✅ 백엔드 연동 시 주석 해제
@@ -25,7 +23,7 @@ const Mypage = () => {
     fetchData();
     */
 
-    // ✅ 임시 데이터 1개로 구성
+    // 사용자 정보, 구독정보는 임시 데이터로 유지
     setUserInfo({
       userId: "meloa_user",
       profileImage: "https://placehold.co/100x100",
@@ -37,14 +35,22 @@ const Mypage = () => {
       remainingDays: "남은 기간: 25일",
     });
 
-    setPurchases([
-      {
-        id: 1,
-        image: "https://placehold.co/80x80",
-        title: "임시 앨범명",
-        generation: "1기수",
-      },
-    ]);
+    // 로컬스토리지에서 구매내역 불러오기
+    const storedPurchases = JSON.parse(localStorage.getItem("purchased")) || [];
+
+    // 구매내역이 없으면 임시 데이터 사용(옵션)
+    if (storedPurchases.length > 0) {
+      setPurchases(storedPurchases);
+    } else {
+      setPurchases([
+        {
+          id: 1,
+          image: "https://placehold.co/80x80",
+          title: "임시 앨범명",
+          generation: "1기수",
+        },
+      ]);
+    }
   }, []);
 
   return (
@@ -85,7 +91,8 @@ const Mypage = () => {
             <AlbumCard key={item.id}>
               <AlbumImg src={item.image} alt={item.title} />
               <AlbumTitle>{item.title}</AlbumTitle>
-              <AlbumGen>{item.generation}</AlbumGen>
+              {/* generation이 없으면 안보이게 */}
+              {item.generation && <AlbumGen>{item.generation}</AlbumGen>}
             </AlbumCard>
           ))}
         </AlbumGrid>
@@ -95,6 +102,10 @@ const Mypage = () => {
     </Container>
   );
 };
+
+
+// ※ styled-components 관련 스타일은 기존 파일 참고
+
 
 const Container = styled.div`
   padding: 24px;

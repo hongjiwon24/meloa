@@ -1,79 +1,66 @@
+// CartP.jsx
 import React, { useEffect, useState, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CartP = () => {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [scrollNeeded, setScrollNeeded] = useState({});
+  const textRefs = useRef({});
 
-  const isAllSelected =
-    cartItems.length > 0 && selectedItems.length === cartItems.length;
+  const isAllSelected = cartItems.length > 0 && selectedItems.length === cartItems.length;
 
   const toggleSelectAll = () => {
-    setSelectedItems(
-      isAllSelected ? [] : cartItems.map((item) => item.id)
-    );
+    setSelectedItems(isAllSelected ? [] : cartItems.map((item) => item.id));
   };
 
   useEffect(() => {
+    // 백엔드 API 연동 시 교체
+    // axios.get('/api/cart')
+    //   .then(response => setCartItems(response.data))
+    //   .catch(error => console.error("장바구니 데이터 불러오기 실패", error));
+
     const mockData = [
-      {
-        id: 1,
-        title: "GOLDEN",
-        artist: "정돈워크",
-        albumImage: "https://placehold.co/45x45?text=Album",
-        price: 700,
-        duration: "320초",
-      },
-      {
-        id: 2,
-        title: "GOLDEN",
-        artist: "정돈워크",
-        albumImage: "https://placehold.co/45x45?text=Album2",
-        price: 700,
-        duration: "320초",
-      },
+      { id: 1, title: "GOLDEN", artist: "정돈워크", albumImage: "https://placehold.co/45x45?text=Album", price: 700, duration: "320초" },
+      { id: 2, title: "SUMMER", artist: "쿨타임밴드", albumImage: "https://placehold.co/45x45?text=Album2", price: 1200, duration: "280초" },
     ];
     setCartItems(mockData);
     setSelectedItems([2]);
   }, []);
 
   const toggleSelect = (id) => {
-    setSelectedItems((prev) =>
-      prev.includes(id)
-        ? prev.filter((itemId) => itemId !== id)
-        : [...prev, id]
-    );
+    setSelectedItems((prev) => prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]);
   };
 
   const deleteItem = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
     setSelectedItems((prev) => prev.filter((itemId) => itemId !== id));
-    setScrollNeeded((prev) => {
-      const newState = { ...prev };
-      delete newState[id];
-      return newState;
-    });
+    setScrollNeeded((prev) => { const newState = { ...prev }; delete newState[id]; return newState; });
+
+    // axios.delete(`/api/cart/${id}`)
+    //   .then(() => console.log("삭제 성공"))
+    //   .catch((error) => console.error("삭제 실패", error));
   };
 
   const handleDeleteSelected = () => {
-    setCartItems((prev) =>
-      prev.filter((item) => !selectedItems.includes(item.id))
-    );
+    setCartItems((prev) => prev.filter((item) => !selectedItems.includes(item.id)));
     setSelectedItems([]);
     setScrollNeeded({});
+
+    // axios.post('/api/cart/delete-multiple', { ids: selectedItems })
+    //   .then(() => console.log("선택 항목 삭제 성공"))
+    //   .catch((error) => console.error("선택 항목 삭제 실패", error));
   };
 
   const handlePayment = () => {
-    const total = totalPrice.toLocaleString();
-    alert(`${total}원 결제 진행`);
+    const selectedData = cartItems.filter((item) => selectedItems.includes(item.id));
+    navigate("/pay", { state: { selectedItems: selectedData } });
   };
 
-  const totalPrice = cartItems
-    .filter((item) => selectedItems.includes(item.id))
-    .reduce((sum, item) => sum + item.price, 0);
-
-  const textRefs = useRef({});
+  const totalPrice = cartItems.filter((item) => selectedItems.includes(item.id)).reduce((sum, item) => sum + item.price, 0);
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -85,7 +72,6 @@ const CartP = () => {
         }
       });
     };
-
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
@@ -94,13 +80,7 @@ const CartP = () => {
   return (
     <Container>
       <Notice>
-        구매한 MP3 음원은 Meloa &gt; 마이페이지 &gt; 구매한 콘텐츠에서 확인하실 수 있습니다.
-        개별 구매한 MP3는 최초 다운로드일로부터 1년 이내 재다운로드가 가능합니다.
-        단, 일부 음원은 저작권자의 요청에 따라 재다운로드가 제한될 수 있습니다.
-        MP3 다운로드 상품은 디지털 콘텐츠 특성상 청약철회(환불)가 불가합니다.
-        MP3 음원은 기본적으로 320kbps 음질로 제공되며,
-        해당 음질이 없는 경우에는 128kbps 또는 192kbps로 제공될 수 있습니다.
-        음질은 별도로 선택하실 수 없습니다.
+        구매한 MP3 음원은 Meloa &gt; 마이페이지 &gt; 구매한 콘텐츠에서 확인하실 수 있습니다. 개별 구매한 MP3는 최초 다운로드일로부터 1년 이내 재다운로드가 가능합니다. 단, 일부 음원은 저작권자의 요청에 따라 재다운로드가 제한될 수 있습니다. MP3 다운로드 상품은 디지털 콘텐츠 특성상 청약철회(환불)가 불가합니다. MP3 음원은 기본적으로 320kbps 음질로 제공되며, 해당 음질이 없는 경우에는 128kbps 또는 192kbps로 제공될 수 있습니다. 음질은 별도로 선택하실 수 없습니다.
       </Notice>
       <Divider />
 
@@ -110,17 +90,11 @@ const CartP = () => {
         <>
           <ListHeader>
             <CheckboxWrapper>
-              <input
-                type="checkbox"
-                checked={isAllSelected}
-                onChange={toggleSelectAll}
-              />
+              <input type="checkbox" checked={isAllSelected} onChange={toggleSelectAll} />
             </CheckboxWrapper>
             <HeaderText>노래 제목 · 아티스트</HeaderText>
             <HeaderText>가격</HeaderText>
-            <HeaderDeleteButton onClick={handleDeleteSelected}>
-              선택삭제
-            </HeaderDeleteButton>
+            <HeaderDeleteButton onClick={handleDeleteSelected}>선택삭제</HeaderDeleteButton>
           </ListHeader>
 
           {cartItems.map((item) => {
@@ -131,20 +105,11 @@ const CartP = () => {
             return (
               <CartItem key={item.id}>
                 <CheckboxContainer>
-                  <StyledCheckbox
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => toggleSelect(item.id)}
-                  />
+                  <StyledCheckbox type="checkbox" checked={isSelected} onChange={() => toggleSelect(item.id)} />
                 </CheckboxContainer>
                 <AlbumImage src={item.albumImage} alt="album" />
                 <TextGroup>
-                  <ScrollingTextWrapper
-                    ref={(el) => (textRefs.current[item.id] = el)}
-                    $scroll={needScroll}
-                    $scrollWidth={scrollWidth}
-                    title={`${item.title} · ${item.artist}`}
-                  >
+                  <ScrollingTextWrapper ref={(el) => (textRefs.current[item.id] = el)} $scroll={needScroll} $scrollWidth={scrollWidth} title={`${item.title} · ${item.artist}`}>
                     {item.title} · {item.artist}
                   </ScrollingTextWrapper>
                   <Duration>{item.duration}</Duration>
@@ -160,10 +125,7 @@ const CartP = () => {
           <TotalSection>
             <TotalText>총 {totalPrice.toLocaleString()}원</TotalText>
           </TotalSection>
-          <PayButton
-            disabled={selectedItems.length === 0}
-            onClick={handlePayment}
-          >
+          <PayButton disabled={selectedItems.length === 0} onClick={handlePayment}>
             결제하기
           </PayButton>
         </>
@@ -173,6 +135,8 @@ const CartP = () => {
 };
 
 export default CartP;
+
+
 
 // ⬇ styled-components
 
