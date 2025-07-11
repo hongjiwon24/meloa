@@ -1,0 +1,68 @@
+import { useState } from 'react';
+
+function AdminPage() {
+  const [title, setTitle] = useState('');
+  const [audioFile, setAudioFile] = useState(null);
+  const [message, setMessage] = useState('');
+
+  const handleUpload = async () => {
+    if (!title || !audioFile) {
+      setMessage('⚠️ 제목과 파일을 모두 입력하세요.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('audio', audioFile);
+
+    try {
+      const response = await fetch('/api/tracks/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessage('✅ 업로드 성공!');
+        setTitle('');
+        setAudioFile(null);
+      } else {
+        setMessage('❌ 업로드 실패: ' + data.message);
+      }
+    } catch (error) {
+      console.error('업로드 중 오류 발생:', error);
+      setMessage('🚨 서버 오류');
+    }
+  };
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h2>🎵 음원 업로드 (관리자)</h2>
+
+      <div style={{ marginBottom: '1rem' }}>
+        <label>제목: </label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+
+      <div style={{ marginBottom: '1rem' }}>
+        <label>파일 선택: </label>
+        <input
+          type="file"
+          accept="audio/*"
+          onChange={(e) => setAudioFile(e.target.files[0])}
+        />
+      </div>
+
+      <button onClick={handleUpload}>업로드</button>
+
+      {message && <p style={{ marginTop: '1rem' }}>{message}</p>}
+    </div>
+  );
+}
+
+export default AdminPage;
