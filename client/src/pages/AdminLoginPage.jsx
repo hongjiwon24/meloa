@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import AdminHeader from '../components/admin/AdminHeader';
+import AdminBottomNav from '../components/admin/AdminBottomNav';
 
 function AdminLoginPage() {
   const [password, setPassword] = useState('');
@@ -15,6 +17,7 @@ function AdminLoginPage() {
       const data = await res.json();
 
       if (data.success) {
+        localStorage.setItem('isAdmin', 'true');
         setMessage('인증 성공! 관리자 페이지로 이동중...');
         // 예: 관리자 페이지로 이동
         window.location.href = '/admin';
@@ -28,17 +31,21 @@ function AdminLoginPage() {
   };
 
   return (
-    <div>
-      <h2>관리자 로그인</h2>
-      <input
-        type="password"
-        value={password}
-        placeholder="비밀번호 입력"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>로그인</button>
-      <p>{message}</p>
-    </div>
+    <>
+      <AdminHeader></AdminHeader>
+      <div>
+        <h2>관리자 로그인</h2>
+        <input
+          type="password"
+          value={password}
+          placeholder="비밀번호 입력"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button onClick={handleLogin}>로그인</button>
+        <p>{message}</p>
+      </div>
+      <AdminBottomNav></AdminBottomNav>
+    </>
   );
 }
 

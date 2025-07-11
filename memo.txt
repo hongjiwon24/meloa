@@ -157,5 +157,25 @@ TrackDetailPage(UserTrackDetailPage.jsx)에 있는 바로구매 버튼 클릭 ->
 
 =========================================
 
-이용권 종류 중 프리미엄 정기결제와 프리미엄 30일의 차이는?
+(사용자모드)
+1. 홈페이지(메인페이지)
+/components/user/Header.jsx -----이용권, 로고, 장바구니, 마이페이지
+/components/user/home/총 섹션 4개의 컴포넌트 -----Section1(최신음악) + Section2(인기차트) + Section3(주제별 플레이리스트) + Section4(플레이리스트)
+***Section1과 Section2만 데이터베이스 기반으로 음원 노출됨
+/components/user/BottomNav.jsx -----인기차트, 최신음악, 홈, 좋아요, 플레이리스트
 
+2. 인기차트 페이지
+/pages/user/UserPopularPage.jsx
+
+3. 최신음악 페이지
+/pages/user/UserLatestPage.jsx
+
+4. 플레이리스트 페이지
+/pages/user/List.jsx
+
+5. 
+
+=========================================
+
+
+보안상 중요한 페이지는 서버에서도 토큰 기반 인증을 도입하는 것이 더 안전합니다. (이건 추후 단계에서 진행하셔도 됩니다)

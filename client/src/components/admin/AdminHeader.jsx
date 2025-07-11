@@ -8,16 +8,12 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { user, loading } = useContext(AuthContext);
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
-  const handleMyPageClick = () => {
-    if (loading) return; // 아직 로딩 중이면 클릭 막음
-
-    if (user) {
-      navigate("/mypage");
-    } else {
-      navigate("/login");
-    }
+  // 로그아웃 처리
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    window.location.href = '/admin-login';
   };
 
 
@@ -27,9 +23,11 @@ export default function Header() {
       <TitleText>관리자 모드</TitleText>
       
       <ButtonGroup>
-        {/* <IconButton onClick={handleMyPageClick} title="마이페이지">
-          <FaUser size={20} />
-        </IconButton> */}
+        {isAdmin && (
+          <IconButton onClick={handleLogout} title="로그아웃">
+            로그아웃
+          </IconButton>
+        )}
       </ButtonGroup>
     </HeaderContainer>
   );
@@ -37,13 +35,12 @@ export default function Header() {
 
 // 스타일
 const HeaderContainer = styled.header`
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 12px 16px;
   border-bottom: 1px solid #e5e7eb;
   background-color: white;
+  gap: 10px;
 `;
 
 const TitleText = styled(Link)`
@@ -58,9 +55,6 @@ const TitleText = styled(Link)`
 `;
 
 const LogoLink = styled(Link)`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 24px;
   font-weight: bold;
   letter-spacing: 0.05em;
