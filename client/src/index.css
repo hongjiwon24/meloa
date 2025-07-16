@@ -1,0 +1,9 @@
+body {
+  max-width: 600px;
+  min-width: 360px;
+  margin: 0 auto;
+}
+
+* {
+  font-family: 'Noto Sans KR', 'Pretendard', sans-serif;
+}

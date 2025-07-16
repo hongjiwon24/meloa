@@ -1,0 +1,48 @@
+import { useEffect, useState } from 'react';
+
+function UserPage() {
+  const [tracks, setTracks] = useState([]);
+
+  useEffect(() => {
+    const fetchTracks = async () => {
+      try {
+        const res = await fetch('/api/tracks');
+        const data = await res.json();
+
+        if (data.success) {
+          setTracks(data.tracks);
+        }
+      } catch (err) {
+        console.error('음원 목록 로딩 실패:', err);
+      }
+    };
+
+    fetchTracks();
+  }, []);
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h2>🎧 사용자용 음원 목록</h2>
+      {tracks.length === 0 ? (
+        <p>등록된 음원이 없습니다.</p>
+      ) : (
+        <ul>
+          {tracks.map((track) => (
+            <li key={track._id} style={{ marginBottom: '1rem' }}>
+              <strong>{track.title}</strong>  
+              <a
+                href={`/uploads/${track.filename}`}
+                download
+                style={{ marginLeft: '1rem' }}
+              >
+                ⬇️ 다운로드
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default UserPage;
