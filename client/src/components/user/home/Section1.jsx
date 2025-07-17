@@ -100,17 +100,6 @@ const Section1 = () => {
         )}
       </Slider>
 
-      <IndicatorWrapper>
-        {musicData.length > 0 &&
-          musicData.map((_, idx) => (
-            <Dot
-              key={idx}
-              $active={activeIndex === idx}
-              onClick={() => scrollToIndex(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-      </IndicatorWrapper>
     </Container>
   );
 };
@@ -197,13 +186,6 @@ const EmptyBox = styled.div`
   border: 2px dashed #e5e7eb;
   border-radius: 12px;
   background-color: #f9fafb;
-`;
-
-const IndicatorWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-  gap: 8px;
 `;
 
 const Dot = styled.button`
