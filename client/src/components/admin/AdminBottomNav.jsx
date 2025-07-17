@@ -41,9 +41,6 @@ export default function BottomNav() {
           <FaUser size={20} />
           <span>관리자정보</span>
         </NavItem>
-
-
-
       </NavList>
     </Nav>
   );
@@ -64,7 +61,8 @@ const Nav = styled.nav`
 const NavList = styled.ul`
   display: flex;
   justify-content: space-around;
-  padding: 8px 0;
+  padding: 0px 5px;
+  margin: 10px 0;
   font-size: 12px;
   color: #4b5563;
 `;

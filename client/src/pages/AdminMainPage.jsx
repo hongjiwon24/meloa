@@ -1,4 +1,3 @@
-//D:\my\my-music-app\client\src\pages\AdminMainPage.jsx
 import { useNavigate } from 'react-router-dom';
 import AdminHeader from '../components/admin/AdminHeader';
 import AdminBottomNav from '../components/admin/AdminBottomNav';
