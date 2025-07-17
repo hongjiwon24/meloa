@@ -81,16 +81,16 @@ const RegisterContainer = styled.form`
 `;
 
 const Input = styled.input`
-  padding: 12px;
-  font-size: 16px;
+  padding: 10px 12px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
 `;
 
 const RegisterButton = styled.button`
-  padding: 12px;
+  padding: 16px;
   font-size: 16px;
-  background-color: #333;
+  background-color: #FF2C68;
   color: white;
   border: none;
   border-radius: 8px;
@@ -104,7 +104,7 @@ const Message = styled.div`
 
 const BottomLinks = styled.div`
   margin-top: 16px;
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   justify-content: space-between;
   color: #666;

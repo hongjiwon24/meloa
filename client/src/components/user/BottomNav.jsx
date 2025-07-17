@@ -20,12 +20,23 @@ export default function BottomNav() {
   return (
     <Nav>
       <NavList>
+          <NavItem onClick={() => navigate("/")}>
+          <Icon 
+            src={
+              activeMenu === "home"
+                ? "/UserIcons/home_fill.svg"
+                : "/UserIcons/home.svg"
+            }
+          />
+          <Label active={activeMenu === "home"}>홈</Label>
+        </NavItem>
+
         <NavItem onClick={() => navigate("/tracks/popular")}>
           <Icon
             src={
               activeMenu === "popular"
-                ? "/icons/fire_pink.svg"
-                : "/icons/fire.svg"
+                ? "/UserIcons/fire_fill.svg"
+                : "/UserIcons/fire.svg"
             }
           />
           <Label active={activeMenu === "popular"}>인기차트</Label>
@@ -35,43 +46,33 @@ export default function BottomNav() {
           <Icon
             src={
               activeMenu === "latest"
-                ? "/icons/clock_pink.svg"
-                : "/icons/clock.svg"
+                ? "/UserIcons/clock_fill.svg"
+                : "/UserIcons/clock.svg"
             }
           />
           <Label active={activeMenu === "latest"}>최신음악</Label>
-        </NavItem>
-
-        <NavItem onClick={() => navigate("/")}>
-          <HomeIcon
-            src={
-              activeMenu === "home"
-                ? "/icons/home_filled.svg"
-                : "/icons/home.svg"
-            }
-          />
-        </NavItem>
-
-        <NavItem onClick={() => navigate("/like")}>
-          <Icon
-            src={
-              activeMenu === "like"
-                ? "/icons/heart_pink.svg"
-                : "/icons/heart_border.svg"
-            }
-          />
-          <Label active={activeMenu === "like"}>좋아요</Label>
         </NavItem>
 
         <NavItem onClick={() => navigate("/list")}>
           <Icon
             src={
               activeMenu === "playlist"
-                ? "/icons/cd_pink.svg"
-                : "/icons/cd.svg"
+                ? "/UserIcons/cd_fill.svg"
+                : "/UserIcons/cd.svg"
             }
           />
-          <Label active={activeMenu === "playlist"}>플레이리스트</Label>
+          <Label active={activeMenu === "playlist"}>테마</Label>
+        </NavItem>
+
+        <NavItem onClick={() => navigate("/like")}>
+          <Icon
+            src={
+              activeMenu === "like"
+                ? "/UserIcons/heart_fill.svg"
+                : "/UserIcons/heart_border.svg"
+            }
+          />
+          <Label active={activeMenu === "like"}>좋아요</Label>
         </NavItem>
       </NavList>
     </Nav>
@@ -80,6 +81,7 @@ export default function BottomNav() {
 
 // 스타일
 const Nav = styled.nav`
+  height: 70px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -94,8 +96,8 @@ const Nav = styled.nav`
 
 const NavList = styled.ul`
   display: flex;
-  justify-content: space-around;
-  padding: 0px 5px;
+  justify-content: space-between;
+  padding: 0px 18px;
   margin: 10px 0;
   font-size: 12px;
   color: #4b5563;
@@ -107,27 +109,21 @@ const NavItem = styled.li`
   align-items: center;
   cursor: pointer;
   gap: 5px;
+  width: 40px;
 
   &:hover {
     color: #ff2c68;
   }
 `;
 const Icon = styled.img`
-  width: 30px;
-  height: 30px;
-  padding-top: 5px;
+  width: 28px;
+  height: 28px;
+  padding-top: 3px;
 `;
 
 const Label = styled.span`
-  font-size: 12px;
+  font-size: 10px;
   color: ${(props) => (props.active ? '#ff2c68' : '#969696')};
   line-height: 1;
   font-weight: ${(props) => (props.active ? '600' : 'normal')};
-`;
-const HomeIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #ff2c68;
-  padding: 15px;
 `;

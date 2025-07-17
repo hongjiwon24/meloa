@@ -78,6 +78,7 @@ function LoginPage() {
           <span onClick={() => navigate('/register')}>회원가입</span>
           <Divider />
           <span onClick={() => alert('아이디 찾기')}>아이디 찾기</span>
+          <span>|</span>
           <span onClick={() => alert('비밀번호 찾기')}>비밀번호 찾기</span>
           <Bar />
           <span onClick={() => navigate('/admin-login')}>관리자모드</span>
@@ -102,16 +103,16 @@ const LoginContainer = styled.form`
 `;
 
 const Input = styled.input`
-  padding: 12px;
-  font-size: 16px;
+  padding: 10px 12px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
 `;
 
 const LoginButton = styled.button`
-  padding: 12px;
+  padding: 16px;
   font-size: 16px;
-  background-color: #333;
+  background-color: #FF2C68;
   color: white;
   border: none;
   border-radius: 8px;
@@ -123,9 +124,10 @@ const ErrorMessage = styled.div`
   font-size: 14px;
 `;
 
+// 하단 도움 버튼
 const BottomLinks = styled.div`
   margin-top: 16px;
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   justify-content: space-between;
   color: #666;

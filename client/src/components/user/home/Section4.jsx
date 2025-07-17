@@ -121,6 +121,7 @@ const SlideItem = styled.div`
   border-radius: 8px;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 
   &:focus {
     outline: 2px solid #2563eb;

@@ -75,7 +75,7 @@ const List = () => {
     <Container>
 
       <TopBar>
-        <SectionTitle>플레이리스트</SectionTitle>
+        <SectionTitle>테마</SectionTitle>
         <SortButtons>
           <SortButton
             $active={sortType === "latest"}
