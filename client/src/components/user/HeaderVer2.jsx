@@ -49,7 +49,7 @@ const TitleName = styled(Link)`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   letter-spacing: 0.05em;
   color: #FF2C68;
