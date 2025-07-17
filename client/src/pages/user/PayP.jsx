@@ -23,6 +23,7 @@ export default function PayP() {
   const [expiry, setExpiry] = useState("");
   const [cvc, setCvc] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const cardNumberRef = useRef();
   const expiryRef = useRef();
@@ -690,6 +691,7 @@ const ModalContent = styled.div`
   padding: 20px;
   border-radius: 8px;
   max-width: 300px;
+  width: 75%;
   text-align: center;
 `;
 

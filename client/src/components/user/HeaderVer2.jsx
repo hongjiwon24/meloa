@@ -1,33 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext"; // ✅ 추가
 
 export default function HeaderVer2({ title }) {
   const navigate = useNavigate();
-
-  // 로그인 여부 체크 (임시)
-  const isLoggedIn = false;
+  const { user } = useContext(AuthContext); // ✅ context에서 유저 정보 가져오기
 
   const handleMyPageClick = () => {
-    if (isLoggedIn) {
-      navigate("/mypage");
+    if (user) {
+      navigate("/mypage"); // 로그인 되어있으면 마이페이지로
     } else {
-      navigate("/login");
+      navigate("/login"); // 아니면 로그인 페이지로
     }
   };
 
   return (
     <HeaderContainer>
-      <PassLink to="/pass">이용권</PassLink>
+      <PassLink to="/pass">
+        <PassIconImg onClick={() => navigate("/pass")} src="/icons/header_pass.svg" alt="이용권" />
+      </PassLink>
       <TitleName>{title}</TitleName>
 
       <ButtonGroup>
         <IconButton onClick={() => navigate("/cart")} title="장바구니">
-          <FaShoppingCart size={20} />
+          <CartIconImg src="/icons/header_cart.svg" alt="장바구니" />
         </IconButton>
         <IconButton onClick={handleMyPageClick} title="마이페이지">
-          <FaUser size={20} />
+          <UserIconImg src="/icons/header_people.svg" alt="마이페이지" />
         </IconButton>
       </ButtonGroup>
     </HeaderContainer>
@@ -44,22 +45,11 @@ const HeaderContainer = styled.header`
   background-color: white;
 `;
 
-const PassLink = styled(Link)`
-  font-size: 14px;
-  font-weight: 600;
-  color: #2563eb;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const TitleName = styled(Link)`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   letter-spacing: 0.05em;
   color: #FF2C68;
@@ -81,4 +71,24 @@ const IconButton = styled.button`
   &:hover {
     color: #ff2c68;
   }
+`;
+
+const PassLink = styled(Link)`
+  cursor: pointer;
+
+`;
+
+
+const PassIconImg = styled.img`
+  width: 42px;
+  vertical-align: middle;
+`;
+const CartIconImg = styled.img`
+  width: 26px;
+  vertical-align: middle;
+`;
+
+const UserIconImg = styled.img`
+  width: 23px;
+  vertical-align: middle;
 `;

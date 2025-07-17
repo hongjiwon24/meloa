@@ -69,7 +69,7 @@ export default function BottomNav() {
             src={
               activeMenu === "like"
                 ? "/UserIcons/heart_fill.svg"
-                : "/UserIcons/heart_border.svg"
+                : "/UserIcons/heart.svg"
             }
           />
           <Label active={activeMenu === "like"}>좋아요</Label>
@@ -125,5 +125,5 @@ const Label = styled.span`
   font-size: 10px;
   color: ${(props) => (props.active ? '#ff2c68' : '#969696')};
   line-height: 1;
-  font-weight: ${(props) => (props.active ? '600' : 'normal')};
+  font-weight: normal;
 `;

@@ -85,7 +85,12 @@ const CartP = () => {
 
     if (!user) {
       alert("로그인이 필요한 서비스입니다.");
-      navigate("/login");
+      navigate("/login", {
+        state: {
+          from: "/pay", // 로그인 후 돌아올 경로
+          passItem: selectedCartItems, // 선택한 아이템 전달
+        },
+      });
       return;
     }
 

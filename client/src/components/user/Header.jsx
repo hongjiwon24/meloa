@@ -2,7 +2,6 @@
 
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext"; 
 
@@ -21,15 +20,18 @@ export default function Header() {
 
   return (
     <HeaderContainer>
-      <PassLink to="/pass">이용권</PassLink>
+      <PassLink to="/pass">
+        <PassIconImg src="/icons/header_pass.svg" alt="이용권" />
+      </PassLink>
+
       <LogoLink to="/">Meloa</LogoLink>
 
       <ButtonGroup>
         <IconButton onClick={() => navigate("/cart")} title="장바구니">
-          <FaShoppingCart size={20} />
+          <CartIconImg src="/icons/header_cart.svg" alt="장바구니" />
         </IconButton>
         <IconButton onClick={handleMyPageClick} title="마이페이지">
-          <FaUser size={20} />
+          <UserIconImg src="/icons/header_people.svg" alt="마이페이지" />
         </IconButton>
       </ButtonGroup>
     </HeaderContainer>
@@ -54,11 +56,38 @@ const PassLink = styled(Link)`
   font-weight: 600;
   color: #2563eb;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
   }
 `;
+
+const IconButton = styled.button`
+  background: none;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+
+  &:hover {
+    color: #ff2c68;
+  }
+`;
+
+const PassIconImg = styled.img`
+  width: 42px;
+  vertical-align: middle;
+`;
+const CartIconImg = styled.img`
+  width: 26px;
+  vertical-align: middle;
+`;
+
+const UserIconImg = styled.img`
+  width: 23px;
+  vertical-align: middle;
+`;
+
 
 const LogoLink = styled(Link)`
   position: absolute;
@@ -77,13 +106,3 @@ const ButtonGroup = styled.div`
   gap: 12px;
 `;
 
-const IconButton = styled.button`
-  background: none;
-  border: none;
-  color: #374151;
-  cursor: pointer;
-
-  &:hover {
-    color: #ff2c68;
-  }
-`;

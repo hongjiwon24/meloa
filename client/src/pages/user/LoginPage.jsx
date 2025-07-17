@@ -38,7 +38,7 @@ function LoginPage() {
         if (passItem) {
           navigate(from, {
             state: {
-              items: [passItem],
+              items: passItem,
               method: 'subscription',
             },
           });
@@ -53,6 +53,8 @@ function LoginPage() {
       setError('서버 오류');
     }
   };
+
+  
 
   return (
     <>
